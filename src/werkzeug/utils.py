@@ -192,7 +192,7 @@ def get_content_type(mimetype: str, charset: str) -> str:
     return mimetype
 
 
-def secure_filename(filename: str) -> str:
+def secure_filename(filename: str, max_len=1024) -> str:
     r"""Pass it a filename and it will return a secure version of it.  This
     filename can then safely be stored on a regular file system and passed
     to :func:`os.path.join`.  The filename returned is an ASCII only string
@@ -216,6 +216,9 @@ def secure_filename(filename: str) -> str:
 
     :param filename: the filename to secure
     """
+    if len(filename) > max_len:
+        print("filename exceeded maximum length. Can change the length with: secure_filename(filename, max_len=NUM)")
+        return ""
     filename = unicodedata.normalize("NFKD", filename)
     filename = filename.encode("ascii", "ignore").decode("ascii")
 
